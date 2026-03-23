@@ -27,9 +27,22 @@ public class BookMyStayApp {
 
     public static void main(String[] args) {
 
-        // Calling Use Case 1
+        // Use Case 1
         UseCase1 uc1 = new UseCase1();
         uc1.showWelcomeMessage();
+
+        // Use Case 3 (Inventory)
+        RoomInventory.displayAvailability();
+
+        boolean status = RoomInventory.bookRoom("single");
+
+        if (status) {
+            System.out.println("Room booked successfully!");
+        } else {
+            System.out.println("Room not available!");
+        }
+
+        RoomInventory.displayAvailability();
     }
 }
 
@@ -106,5 +119,62 @@ abstract class Room {
         System.out.println("Number of Beds: " + numberOfBeds);
         System.out.println("Room Size: " + squareFeet + " sq.ft");
         System.out.println("Price per Night: Rs. " + pricePerNight);
+    }
+}
+/**
+ * ==============================================================
+ * CLASS – RoomInventory
+ * ==============================================================
+ *
+ * Use Case 3: Centralized Room Inventory Management
+ *
+ * Description:
+ * This class manages the availability of different room types
+ * in a centralized manner.
+ *
+ * It keeps track of how many rooms are available and allows
+ * booking by reducing the count.
+ *
+ * @version 3.0
+ */
+class RoomInventory {
+
+    private static int singleRoomCount = 5;
+    private static int doubleRoomCount = 3;
+    private static int deluxeRoomCount = 2;
+
+    public static void displayAvailability() {
+
+        System.out.println("\n===== Room Availability =====");
+        System.out.println("Single Rooms: " + singleRoomCount);
+        System.out.println("Double Rooms: " + doubleRoomCount);
+        System.out.println("Deluxe Rooms: " + deluxeRoomCount);
+        System.out.println("=============================");
+    }
+
+    public static boolean bookRoom(String roomType) {
+
+        if (roomType.equalsIgnoreCase("single")) {
+            if (singleRoomCount > 0) {
+                singleRoomCount--;
+                return true;
+            }
+        }
+
+        else if (roomType.equalsIgnoreCase("double")) {
+            if (doubleRoomCount > 0) {
+                doubleRoomCount--;
+                return true;
+            }
+        }
+
+        else if (roomType.equalsIgnoreCase("deluxe")) {
+            if (deluxeRoomCount > 0) {
+                deluxeRoomCount--;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
